@@ -34,6 +34,40 @@ def user_registration(name: str,  email: str, dob: str = None, address: str = No
         return json.dumps({"status": False, 'message': message})
 
 
+@uca_client.action
+def read_one(id: int) -> str:
+    url = "http://127.0.0.1:8005/user/"+str(id)
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        json_response = response.json()
+        print(json_response)
+        return json.dumps(json_response)
+    else:
+        message = 'user not found'
+        return (json.dumps({"status": False, 'message': message}))
+
+
+@uca_client.action
+def delete_user(id:int) -> str:
+    url = "http://127.0.0.1:8005/user/"+str(id)
+    response = requests.delete(url)
+
+    if response.status_code == 200:
+        json_response = response.json()
+        print(json_response)
+        return json_response
+
+    else:
+        message = 'user not found'
+        return json.dumps({'status': False, 'message': message})
+
+
+
+
+
+
+
 
 
 
