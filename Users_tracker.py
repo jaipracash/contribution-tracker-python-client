@@ -1,5 +1,3 @@
-from typing import Any, Set
-
 import requests
 import json
 from datetime import date
