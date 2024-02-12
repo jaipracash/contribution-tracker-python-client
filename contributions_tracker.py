@@ -46,6 +46,18 @@ def delete_contribution(id: int) -> str:
         status_code = response.status_code
         return json.dumps({"status": False, "status code": status_code, "message": message})
 
+@uca_client.action
+def read_one(id:int) -> str:
+    url = "http://127.0.0.1:8005/contribution/" + str(id)
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        json_response = response.json()
+        return json.dumps(json_response)
+    else:
+        message = "failed to read event"
+        return json.dumps({"status": False, "message": message})
+
 
 if __name__ == '__main__':
     uca_client.run_forever()
