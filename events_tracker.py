@@ -46,10 +46,10 @@ def read_one(id: int) -> str:
 @uca_client.action
 def delete_event(id: int) -> str:
     url = "http://127.0.0.1:8005/event/"+ str(id)
-    resposne = requests.delete(url)
+    response = requests.delete(url)
 
-    if resposne.status_code == 200:
-        json_response = resposne.json()
+    if response.status_code == 200:
+        json_response = response.json()
         return json.dumps(json_response)
     else:
         message = "failed to delete event"
