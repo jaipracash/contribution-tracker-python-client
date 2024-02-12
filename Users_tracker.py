@@ -56,13 +56,31 @@ def delete_user(id:int) -> str:
     if response.status_code == 200:
         json_response = response.json()
         print(json_response)
-        return json_response
+        return json.dumps(json_response)
 
     else:
         message = 'user not found'
         return json.dumps({'status': False, 'message': message})
 
+@uca_client.action
+def read_all() -> list[list[str]]:
+    url = "http://127.0.0.1:8005/user/"
+    response = requests.get(url)
 
+    users_list = [['id', 'name', 'dob', 'email', 'address', 'mobile_number']]
+
+    json_response = response.json()
+    for user in json_response:
+        users_list.append([
+            str(user["id"]),
+            str(user["name"]),
+            user["dob"],
+            user["email"],
+            user["address"],
+            user["mobile_number"]
+        ])
+
+    return users_list
 
 
 
