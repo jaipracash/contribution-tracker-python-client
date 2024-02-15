@@ -1,13 +1,6 @@
+from  config import uca_client
 import requests
 import json
-from uniconnapps import connector
-
-uca_client = connector.UcaClient(
-    connector_endpoint="uca://dp-connector-aws-us-east-1.cloud.uniconnapps.com",
-    app_id="005f749b-2be6-43a6-b84e-c578f472d150",
-    client_id="829e6b90-570e-483f-a987-5f8bc1d0865d",
-    client_secret="LtgejSboeZTg9nZR6cJT60MPhUvI4HDtzjCL47C8xkGP5aoOiDAgoMkWnLYpkfh2"
-)
 
 
 @uca_client.action
@@ -31,8 +24,8 @@ def event_registration(name: str, date: str, location: str, user_id: int) -> str
         return json.dumps({"status": False, 'message': message})
 
 @uca_client.action
-def read_one(id: int) -> str:
-    url = "http://127.0.0.1:8005/event/"+ str(id)
+def read_one_event(event_id: int) -> str:
+    url = "http://127.0.0.1:8005/event/"+ str(event_id)
     resposne = requests.get(url)
 
     if resposne.status_code == 200:
@@ -44,8 +37,8 @@ def read_one(id: int) -> str:
 
 
 @uca_client.action
-def delete_event(id: int) -> str:
-    url = "http://127.0.0.1:8005/event/"+ str(id)
+def delete_event(event_id: int) -> str:
+    url = "http://127.0.0.1:8005/event/"+ str(event_id)
     response = requests.delete(url)
 
     if response.status_code == 200:
@@ -56,7 +49,7 @@ def delete_event(id: int) -> str:
         return json.dumps({"status": False, "message": message})
 
 @uca_client.action
-def read_all() -> list[list[str]]:
+def read_all_events() -> list[list[str]]:
     url = "http://127.0.0.1:8005/event/"
     response = requests.get(url)
     event_list = [["id", "user_id", "name", "date", "location"]]
@@ -78,7 +71,4 @@ def read_all() -> list[list[str]]:
         return {'status': False, 'message': message}
 
 
-
-if __name__ == '__main__':
-  uca_client.run_forever()
 
